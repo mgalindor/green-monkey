@@ -1,0 +1,77 @@
+{
+  "tasks": [
+    {
+      "id": "1111",
+      "tittle": "Bañar al Perro",
+      "doDate": "2021-10-08T12:48:41Z",
+      "note": "Contacto Puppy Wash 999-555-36",
+      "tags": ["casa", "mascota"],
+      "daysToWarn": 5,
+      "actions": [
+        {
+          "message": "Sure, I'll see you later.",
+          "done": "2021-10-08T12:48:41Z",
+          "color": "deep-purple lighten-1"
+        },
+        {
+          "message": "Yeah, sure. Does 1:00pm work?",
+          "done": "2021-05-12T16:48:41Z",
+          "color": "green"
+        },
+        {
+          "message": "Did you still want to grab lunch today?",
+          "done": "2021-02-21T10:48:41Z",
+          "color": "deep-purple lighten-1"
+        }
+      ]
+    },
+    {
+      "id": "22222",
+      "tittle": "Lavar el auto",
+      "doDate": "2021-10-13T12:48:41Z",
+      "note": "Contacto Puppy Wash 999-555-36",
+      "tags": ["casa", "cars"],
+      "daysToWarn": 5
+    },
+    {
+      "id": "33333",
+      "tittle": "Poner Gas",
+      "doDate": "2022-10-08T12:48:41Z",
+      "note": "Contacto Puppy Wash 999-555-36",
+      "tags": ["casa", "mantenimiento"],
+      "daysToWarn": 5,
+      "actions": [
+        {
+          "message": "Sure, I'll see you later.",
+          "done": "2021-10-08T12:48:41Z",
+          "color": "deep-purple lighten-1"
+        },
+        {
+          "message": "Yeah, sure. Does 1:00pm work?",
+          "done": "2021-05-12T16:48:41Z",
+          "color": "green"
+        }
+      ]
+    },
+    {
+      "id": "44444",
+      "tittle": "Impermeavilizar",
+      "doDate": "2022-07-15T12:00:41Z",
+      "note": "Contacto Puppy Wash 999-555-36",
+      "tags": ["casa", "mantenimiento", "cars"],
+      "daysToWarn": 5,
+      "actions": [
+        {
+          "message": "Sure, I'll see you later.",
+          "done": "2021-10-08T12:48:41Z",
+          "color": "deep-purple lighten-1"
+        },
+        {
+          "message": "Yeah, sure. Does 1:00pm work?",
+          "done": "2021-05-12T16:48:41Z",
+          "color": "green"
+        }
+      ]
+    }
+  ]
+}

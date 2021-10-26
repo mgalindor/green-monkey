@@ -2,13 +2,13 @@
   <v-timeline align-top dense>
     <v-timeline-item
       v-for="action in actions"
-      :key="action.done.toString()"
+      :key="action.done"
       :color="action.color"
       small
     >
       <div>
         <div class="font-weight-normal">
-          {{ action.done.toLocaleString() }}
+          {{ action.done}}
         </div>
         <div>{{ action.message }}</div>
       </div>
@@ -18,6 +18,7 @@
 
 <script>
 export default {
+  name: "MG-TimeLine",
   props: {
     actions: {
       type: Array,

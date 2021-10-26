@@ -1,9 +1,7 @@
 <template>
   <v-app>
     <v-app-bar app color="green" class="white--text">
-      <v-toolbar-title>
-        <v-icon class="white--text">mdi-account-check</v-icon>
-        Green Monkey</v-toolbar-title>
+      <v-toolbar-title>Green Monkey</v-toolbar-title>
     </v-app-bar>
     <v-main>
       <router-view />
