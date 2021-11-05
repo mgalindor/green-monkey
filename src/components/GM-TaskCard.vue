@@ -76,22 +76,6 @@
       </v-container>
       <p>{{ note }}</p>
     </v-card-text>
-    <v-card-actions class="my-3" v-if="false">
-      <v-row justify="center">
-        <v-btn text class="mr-2" @click="$emit('markAsDone', id)">
-          <v-icon left>mdi-check</v-icon>
-          Done
-        </v-btn>
-        <v-btn text class="mr-2" @click="$emit('edit', id)">
-          <v-icon left>mdi-pencil-outline</v-icon>
-          Edit
-        </v-btn>
-        <v-btn text class="mr-2" @click="$emit('delete', id)">
-          <v-icon left>mdi-delete-outline</v-icon>
-          Delete
-        </v-btn>
-      </v-row>
-    </v-card-actions>
     <v-divider v-if="actions.length != 0"></v-divider>
     <v-card-actions v-if="actions.length != 0">
       <v-btn text block @click="control.showDetail = !control.showDetail">
