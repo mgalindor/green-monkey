@@ -9,8 +9,8 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="success" text @click="confirm"> Yes I want </v-btn>
         <v-btn color="warn" text @click="close"> Maybe later </v-btn>
+        <v-btn color="success" text @click="confirm"> Yes I want </v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>

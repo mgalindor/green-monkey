@@ -38,19 +38,19 @@
                 v-model="task.doDate"
                 no-title
                 scrollable
-                :min="today"
+                :min="getTomorrow"
               >
                 <v-spacer></v-spacer>
                 <v-btn
                   text
-                  color="primary"
+                  color="warn"
                   @click="control.showDatePiker = false"
                 >
                   Cancel
                 </v-btn>
                 <v-btn
                   text
-                  color="secondary"
+                  color="success"
                   @click="$refs.menu.save(task.doDate)"
                 >
                   OK
@@ -100,13 +100,15 @@
     </v-card-text>
     <v-card-actions>
       <v-spacer></v-spacer>
-      <v-btn text color="success" @click="save"> Save </v-btn>
       <v-btn text color="warn" @click="cancel"> Close </v-btn>
+      <v-btn text color="success" @click="save"> Save </v-btn>
     </v-card-actions>
   </v-card>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
   name: "GM-TaskForm",
   props: {
@@ -127,11 +129,6 @@ export default {
       },
     };
   },
-  computed: {
-    today() {
-      return new Date().toISOString().slice(0, 10);
-    },
-  },
   methods: {
     cancel() {
       this.$refs.form.reset();
@@ -145,5 +142,8 @@ export default {
       }
     },
   },
+  computed:{
+    ...mapGetters(["getTomorrow"]),
+  }
 };
 </script>

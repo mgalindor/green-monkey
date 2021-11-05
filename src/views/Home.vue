@@ -2,18 +2,16 @@
   <v-container>
     <v-row>
       <v-col md="8">
-        <v-form>
-          <v-select
-            v-model="selectedTags"
-            :items="availableTags"
-            hide-selected
-            chips
-            deletable-chips
-            multiple
-            label="Tags"
-            prepend-icon="mdi-tag-outline"
-          ></v-select>
-        </v-form>
+        <v-select
+          v-model="selectedTags"
+          :items="availableTags"
+          hide-selected
+          chips
+          deletable-chips
+          multiple
+          label="Tags"
+          prepend-icon="mdi-tag-outline"
+        ></v-select>
       </v-col>
       <v-col md="4" align="end">
         <v-btn
@@ -43,7 +41,7 @@
           :tags="item.tags"
           :daysToWarn="item.daysToWarn"
           :actions="item.actions"
-          @markAsDone="alert('Mark as done:' + $event)"
+          @markAsDone="doneDialogActions().open(item)"
           @edit="taskFormActions().edit(item)"
           @delete="deleteDialogActions().open(item)"
         ></TaskCard>
@@ -58,6 +56,14 @@
             @close="taskFormActions().close()"
             @save="taskFormActions().save($event)"
           ></TaskForm>
+        </v-dialog>
+        <v-dialog v-model="control.doneFormDialog" persistent width="500">
+          <DoneForm
+            :id="doneTask.id"
+            :tittle="doneTask.tittle"
+            @close="doneDialogActions().close()"
+            @save="doneDialogActions().save($event)"
+          ></DoneForm>
         </v-dialog>
 
         <Confirmation
@@ -76,6 +82,7 @@
 <script>
 import TaskCard from "../components/GM-TaskCard";
 import TaskForm from "../components/GM-TaskForm";
+import DoneForm from "../components/GM-DoneForm";
 import Confirmation from "../components/GM-Confirmation";
 import json from "../data/tasks.json";
 
@@ -84,15 +91,21 @@ export default {
   components: {
     TaskCard,
     TaskForm,
+    DoneForm,
     Confirmation,
   },
   data: () => ({
     selectedTags: [],
     control: {
       formDialog: false,
+      doneFormDialog: false,
       deleteTaskDialog: false,
     },
     deleteTask: {
+      tittle: "",
+      id: "",
+    },
+    doneTask: {
       tittle: "",
       id: "",
     },
@@ -164,6 +177,33 @@ export default {
         },
       };
     },
+    doneDialogActions() {
+      let self = this;
+      return {
+        open(item) {
+          self.doneTask.id = item.id;
+          self.doneTask.tittle = item.tittle;
+          self.control.doneFormDialog = true;
+        },
+        close() {
+          self.doneTask.id = "";
+          self.doneTask.tittle = "";
+          self.control.doneFormDialog = false;
+        },
+        save(item) {
+
+          alert(JSON.stringify(item))
+
+          self.tasks[item.taskId].doDate = item.next;
+          self.tasks[item.taskId].actions.push({
+            done: item.done,
+            message: item.note,
+          });
+
+          self.doneDialogActions().close();
+        },
+      };
+    },
     deleteDialogActions() {
       let self = this;
       return {
@@ -176,9 +216,8 @@ export default {
           self.control.deleteTaskDialog = false;
         },
         confirm(receivedId) {
+          delete self.tasks[receivedId];
           self.deleteDialogActions().close();
-          console.log(receivedId);
-          alert("To be deleted " + receivedId);
         },
       };
     },

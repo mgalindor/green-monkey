@@ -1,23 +1,58 @@
 <template>
   <v-card outlined>
-    <v-container>
-      <v-row class="mt-1 mr-1" justify="end">
-        <v-chip color="warning mr-2" outlined v-if="isWarn">
-          <v-icon>mdi-car-brake-alert</v-icon>
-        </v-chip>
-        <v-chip color="error mr-2" outlined v-if="isDelayed">
-          <v-icon>mdi-alert-octagram-outline</v-icon>
-        </v-chip>
-      </v-row>
-    </v-container>
-    <v-card-title class="text-h5"> {{ tittle }}</v-card-title>
+    <v-app-bar flat color="white" dense class="mt-3">
+      <v-toolbar-title>
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on, attrs }">
+            <v-chip color="error mr-2" outlined v-if="isDelayed">
+              <v-icon>mdi-alert-octagram-outline</v-icon>
+            </v-chip>
+            <v-chip color="warning mr-2" outlined v-if="isWarn">
+              <v-icon>mdi-car-brake-alert</v-icon>
+            </v-chip>
+            <span v-bind="attrs" v-on="on">{{ tittle }}</span>
+          </template>
+          <span> {{ tittle }}</span>
+        </v-tooltip>
+      </v-toolbar-title>
+      <v-spacer></v-spacer>
+
+      <v-menu left bottom>
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn icon v-bind="attrs" v-on="on">
+            <v-icon>mdi-dots-vertical</v-icon>
+          </v-btn>
+        </template>
+
+        <v-list>
+          <v-list-item @click="$emit('markAsDone', id)">
+            <v-list-item-title>
+              <v-icon left>mdi-check</v-icon>
+              Done
+            </v-list-item-title>
+          </v-list-item>
+          <v-list-item @click="$emit('edit', id)">
+            <v-list-item-title>
+              <v-icon left>mdi-pencil-outline</v-icon>
+              Edit
+            </v-list-item-title>
+          </v-list-item>
+          <v-list-item @click="$emit('delete', id)">
+            <v-list-item-title>
+              <v-icon left>mdi-delete-outline</v-icon>
+              Delete
+            </v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
+    </v-app-bar>
     <v-card-subtitle v-if="this.doDate !== ''">
       <div class="text-subtitle-1">
         Next:
         {{
-          doDateDate.toLocaleString(getLocale, {
+          doDateDate.toLocaleDateString(getLocale, {
             dateStyle: "full",
-            timeStyle: "short",
+            timeZone: "UTC",
           })
         }}
       </div>
@@ -41,7 +76,7 @@
       </v-container>
       <p>{{ note }}</p>
     </v-card-text>
-    <v-card-actions class="my-3">
+    <v-card-actions class="my-3" v-if="false">
       <v-row justify="center">
         <v-btn text class="mr-2" @click="$emit('markAsDone', id)">
           <v-icon left>mdi-check</v-icon>
@@ -60,7 +95,7 @@
     <v-divider v-if="actions.length != 0"></v-divider>
     <v-card-actions v-if="actions.length != 0">
       <v-btn text block @click="control.showDetail = !control.showDetail">
-        Details
+        History
         <v-spacer></v-spacer>
         <v-icon>{{
           control.showDetail ? "mdi-chevron-up" : "mdi-chevron-down"
@@ -71,7 +106,21 @@
     <v-expand-transition>
       <div v-show="control.showDetail">
         <v-card-text>
-          <TimeLine :actions="actions"></TimeLine>
+          <v-timeline align-top dense>
+            <v-timeline-item
+              v-for="action in actions"
+              :key="action.done"
+              :color="action.color"
+              small
+            >
+              <div>
+                <div class="font-weight-normal">
+                  {{ action.done }}
+                </div>
+                <div>{{ action.message }}</div>
+              </div>
+            </v-timeline-item>
+          </v-timeline>
         </v-card-text>
       </div>
     </v-expand-transition>
@@ -79,14 +128,10 @@
 </template>
 
 <script>
-import TimeLine from "./GM-TimeLine.vue";
 import { mapGetters } from "vuex";
 
 export default {
   name: "GM-TaskCard",
-  components: {
-    TimeLine,
-  },
   props: {
     id: {
       type: String,
