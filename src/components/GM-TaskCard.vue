@@ -25,6 +25,12 @@
         </template>
 
         <v-list>
+          <v-list-item @click="$emit('history', id)">
+            <v-list-item-title>
+              <v-icon left>mdi-history</v-icon>
+              History
+            </v-list-item-title>
+          </v-list-item>
           <v-list-item @click="$emit('markAsDone', id)">
             <v-list-item-title>
               <v-icon left>mdi-check</v-icon>
@@ -70,44 +76,23 @@
             {{ item }}
           </v-chip>
         </v-row>
-        <v-row>
+        <v-row v-if="this.note !== ''">
           <div class="text-subtitle-2">Note:</div>
         </v-row>
+        <v-row v-if="this.note !== ''">
+          <p>{{ note }}</p></v-row
+        >
+        <!--v-row>
+          <v-spacer></v-spacer>
+          <v-btn icon @click="control.showDetail = !control.showDetail">
+            <v-icon>{{
+              control.showDetail ? "mdi-chevron-up" : "mdi-chevron-down"
+            }}</v-icon>
+          </v-btn>
+        </v-row-->
       </v-container>
-      <p>{{ note }}</p>
     </v-card-text>
-    <v-divider v-if="actions.length != 0"></v-divider>
-    <v-card-actions v-if="actions.length != 0">
-      <v-btn text block @click="control.showDetail = !control.showDetail">
-        History
-        <v-spacer></v-spacer>
-        <v-icon>{{
-          control.showDetail ? "mdi-chevron-up" : "mdi-chevron-down"
-        }}</v-icon>
-      </v-btn>
-    </v-card-actions>
 
-    <v-expand-transition>
-      <div v-show="control.showDetail">
-        <v-card-text>
-          <v-timeline align-top dense>
-            <v-timeline-item
-              v-for="action in actions"
-              :key="action.done"
-              :color="action.color"
-              small
-            >
-              <div>
-                <div class="font-weight-normal">
-                  {{ action.done }}
-                </div>
-                <div>{{ action.message }}</div>
-              </div>
-            </v-timeline-item>
-          </v-timeline>
-        </v-card-text>
-      </div>
-    </v-expand-transition>
   </v-card>
 </template>
 

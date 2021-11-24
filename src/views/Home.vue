@@ -14,12 +14,7 @@
         ></v-select>
       </v-col>
       <v-col md="4" align="end">
-        <v-btn
-          large
-          color="success"
-          class="white--text"
-          @click="taskFormActions().open()"
-        >
+        <v-btn large color="success" outlined @click="taskFormActions().open()">
           Add
           <v-icon right>mdi-plus</v-icon>
         </v-btn>
@@ -43,28 +38,28 @@
           :actions="item.actions"
           @markAsDone="doneDialogActions().open(item)"
           @edit="taskFormActions().edit(item)"
+          @history="historyDialogActions().open(item)"
           @delete="deleteDialogActions().open(item)"
         ></TaskCard>
       </v-col>
     </v-row>
     <v-row justify="center">
       <v-col>
-        <v-dialog v-model="control.formDialog" persistent width="500">
-          <TaskForm
-            :task="taskForm"
-            :existingTags="availableTags"
-            @close="taskFormActions().close()"
-            @save="taskFormActions().save($event)"
-          ></TaskForm>
-        </v-dialog>
-        <v-dialog v-model="control.doneFormDialog" persistent width="500">
-          <DoneForm
-            :id="doneTask.id"
-            :tittle="doneTask.tittle"
-            @close="doneDialogActions().close()"
-            @save="doneDialogActions().save($event)"
-          ></DoneForm>
-        </v-dialog>
+        <TaskForm
+          :dialog="control.formDialog"
+          :task="taskForm"
+          :existingTags="availableTags"
+          @close="taskFormActions().close()"
+          @save="taskFormActions().save($event)"
+        ></TaskForm>
+
+        <DoneForm
+          :dialog="control.doneFormDialog"
+          :id="doneTask.id"
+          :tittle="doneTask.tittle"
+          @close="doneDialogActions().close()"
+          @save="doneDialogActions().save($event)"
+        ></DoneForm>
 
         <Confirmation
           action="delete"
@@ -74,6 +69,14 @@
           @confirm="deleteDialogActions().confirm($event)"
           @close="deleteDialogActions().close()"
         ></Confirmation>
+
+        <TaskHistory
+          :dialog="control.historyDialog"
+          :id="taskForm.id"
+          :actions="taskForm.actions"
+          @close="historyDialogActions().close()"
+        >
+        </TaskHistory>
       </v-col>
     </v-row>
   </v-container>
@@ -81,6 +84,7 @@
 
 <script>
 import TaskCard from "../components/GM-TaskCard";
+import TaskHistory from "../components/GM-TaskHistory.vue";
 import TaskForm from "../components/GM-TaskForm";
 import DoneForm from "../components/GM-DoneForm";
 import Confirmation from "../components/GM-Confirmation";
@@ -90,6 +94,7 @@ export default {
   name: "Home",
   components: {
     TaskCard,
+    TaskHistory,
     TaskForm,
     DoneForm,
     Confirmation,
@@ -100,6 +105,7 @@ export default {
       formDialog: false,
       doneFormDialog: false,
       deleteTaskDialog: false,
+      historyDialog: false,
     },
     deleteTask: {
       tittle: "",
@@ -116,6 +122,7 @@ export default {
       note: "",
       tags: [],
       daysToWarn: 0,
+      actions: [],
     },
     tasks: {},
   }),
@@ -191,10 +198,12 @@ export default {
           self.control.doneFormDialog = false;
         },
         save(item) {
-
-          alert(JSON.stringify(item))
-
           self.tasks[item.taskId].doDate = item.next;
+
+          if (self.tasks[item.taskId].actions === undefined) {
+            self.tasks[item.taskId].actions = [];
+          }
+
           self.tasks[item.taskId].actions.push({
             done: item.done,
             message: item.note,
@@ -218,6 +227,18 @@ export default {
         confirm(receivedId) {
           delete self.tasks[receivedId];
           self.deleteDialogActions().close();
+        },
+      };
+    },
+    historyDialogActions() {
+      let self = this;
+      return {
+        open(item) {
+          self.taskForm = Object.assign({}, item);
+          self.control.historyDialog = true;
+        },
+        close() {
+          self.control.historyDialog = false;
         },
       };
     },

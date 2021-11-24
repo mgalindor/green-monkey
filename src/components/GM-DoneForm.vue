@@ -1,117 +1,119 @@
 <template>
-  <v-card outlined>
-    <v-card-title>Mark last time you did {{ tittle }}</v-card-title>
-    <v-card-text>
-      <v-form ref="form" @submit.prevent>
-        <v-row>
-          <v-col cols="12" md="6">
-            <v-menu
-              ref="doneMenu"
-              v-model="control.doneDatePicker"
-              :close-on-content-click="false"
-              :return-value.sync="form.done"
-              transition="scale-transition"
-              offset-y
-              min-width="auto"
-            >
-              <template v-slot:activator="{ on, attrs }">
-                <v-text-field
+  <v-dialog v-model="dialog" persistent max-width="500">
+    <v-card outlined>
+      <v-card-title>Mark last time you did "{{ tittle }}"</v-card-title>
+      <v-card-text>
+        <v-form ref="form" @submit.prevent>
+          <v-row>
+            <v-col cols="12" md="6">
+              <v-menu
+                ref="doneMenu"
+                v-model="control.doneDatePicker"
+                :close-on-content-click="false"
+                :return-value.sync="form.done"
+                transition="scale-transition"
+                offset-y
+                min-width="auto"
+              >
+                <template v-slot:activator="{ on, attrs }">
+                  <v-text-field
+                    v-model="form.done"
+                    label="Done*"
+                    prepend-icon="mdi-calendar"
+                    :rules="[rules.required]"
+                    readonly
+                    v-bind="attrs"
+                    v-on="on"
+                  ></v-text-field>
+                </template>
+                <v-date-picker
                   v-model="form.done"
-                  label="Done*"
-                  prepend-icon="mdi-calendar"
-                  :rules="[rules.required]"
-                  readonly
-                  v-bind="attrs"
-                  v-on="on"
-                ></v-text-field>
-              </template>
-              <v-date-picker
-                v-model="form.done"
-                no-title
-                scrollable
-                :max="getToday"
+                  no-title
+                  scrollable
+                  :max="getToday"
+                >
+                  <v-spacer></v-spacer>
+                  <v-btn
+                    text
+                    color="warn"
+                    @click="control.doneDatePicker = false"
+                  >
+                    Cancel
+                  </v-btn>
+                  <v-btn
+                    text
+                    color="success"
+                    @click="$refs.doneMenu.save(form.done)"
+                  >
+                    OK
+                  </v-btn>
+                </v-date-picker>
+              </v-menu>
+            </v-col>
+            <v-col cols="12" md="6">
+              <v-menu
+                ref="nextMenu"
+                v-model="control.nextDatePicker"
+                :close-on-content-click="false"
+                :return-value.sync="form.next"
+                transition="scale-transition"
+                offset-y
+                min-width="auto"
               >
-                <v-spacer></v-spacer>
-                <v-btn
-                  text
-                  color="warn"
-                  @click="control.doneDatePicker = false"
-                >
-                  Cancel
-                </v-btn>
-                <v-btn
-                  text
-                  color="success"
-                  @click="$refs.doneMenu.save(form.done)"
-                >
-                  OK
-                </v-btn>
-              </v-date-picker>
-            </v-menu>
-          </v-col>
-          <v-col cols="12" md="6">
-            <v-menu
-              ref="nextMenu"
-              v-model="control.nextDatePicker"
-              :close-on-content-click="false"
-              :return-value.sync="form.next"
-              transition="scale-transition"
-              offset-y
-              min-width="auto"
-            >
-              <template v-slot:activator="{ on, attrs }">
-                <v-text-field
+                <template v-slot:activator="{ on, attrs }">
+                  <v-text-field
+                    v-model="form.next"
+                    label="Next Do Date*"
+                    prepend-icon="mdi-calendar"
+                    :rules="[rules.required]"
+                    readonly
+                    v-bind="attrs"
+                    v-on="on"
+                  ></v-text-field>
+                </template>
+                <v-date-picker
                   v-model="form.next"
-                  label="Next Do Date*"
-                  prepend-icon="mdi-calendar"
-                  :rules="[rules.required]"
-                  readonly
-                  v-bind="attrs"
-                  v-on="on"
-                ></v-text-field>
-              </template>
-              <v-date-picker
-                v-model="form.next"
-                no-title
-                scrollable
-                :min="getTomorrow"
-              >
-                <v-spacer></v-spacer>
-                <v-btn
-                  text
-                  color="warn"
-                  @click="control.nextDatePicker = false"
+                  no-title
+                  scrollable
+                  :min="getTomorrow"
                 >
-                  Cancel
-                </v-btn>
-                <v-btn
-                  text
-                  color="success"
-                  @click="$refs.nextMenu.save(form.next)"
-                >
-                  OK
-                </v-btn>
-              </v-date-picker>
-            </v-menu>
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col cols="12">
-            <v-text-field
-              v-model="form.note"
-              label="Note"
-              :rules="[rules.size(50)]"
-              :counter="50"
-            ></v-text-field> </v-col
-        ></v-row>
-      </v-form>
-    </v-card-text>
-    <v-card-actions>
-      <v-spacer></v-spacer>
-      <v-btn text color="warn" @click="cancel"> Close </v-btn>
-      <v-btn text color="success" @click="save"> Save </v-btn>
-    </v-card-actions>
-  </v-card>
+                  <v-spacer></v-spacer>
+                  <v-btn
+                    text
+                    color="warn"
+                    @click="control.nextDatePicker = false"
+                  >
+                    Cancel
+                  </v-btn>
+                  <v-btn
+                    text
+                    color="success"
+                    @click="$refs.nextMenu.save(form.next)"
+                  >
+                    OK
+                  </v-btn>
+                </v-date-picker>
+              </v-menu>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col cols="12">
+              <v-text-field
+                v-model="form.note"
+                label="Note"
+                :rules="[rules.size(50)]"
+                :counter="50"
+              ></v-text-field> </v-col
+          ></v-row>
+        </v-form>
+      </v-card-text>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn text color="warn" @click="cancel"> Close </v-btn>
+        <v-btn text color="success" @click="save"> Save </v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
 </template>
 
 <script>
@@ -126,6 +128,10 @@ export default {
     },
     tittle: {
       type: String,
+      required: true,
+    },
+    dialog: {
+      type: Boolean,
       required: true,
     },
   },
@@ -162,8 +168,8 @@ export default {
       }
     },
   },
-  computed:{
-    ...mapGetters(["getToday","getTomorrow"]),
-  }
+  computed: {
+    ...mapGetters(["getToday", "getTomorrow"]),
+  },
 };
 </script>

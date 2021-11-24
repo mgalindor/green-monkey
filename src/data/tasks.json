@@ -10,18 +10,39 @@
       "actions": [
         {
           "message": "Sure, I'll see you later.",
-          "done": "2021-10-08T12:48:41Z",
-          "color": "deep-purple lighten-1"
+          "done": "2021-10-08T12:48:41Z"
         },
         {
           "message": "Yeah, sure. Does 1:00pm work?",
-          "done": "2021-05-12T16:48:41Z",
-          "color": "green"
+          "done": "2021-05-12T16:48:41Z"
         },
         {
           "message": "Did you still want to grab lunch today?",
-          "done": "2021-02-21T10:48:41Z",
-          "color": "deep-purple lighten-1"
+          "done": "2021-02-21T10:48:41Z"
+        },
+        {
+          "message": "Sure, I'll see you later.",
+          "done": "2021-10-08T12:48:41Z"
+        },
+        {
+          "message": "Yeah, sure. Does 1:00pm work?",
+          "done": "2021-05-12T16:48:41Z"
+        },
+        {
+          "message": "Did you still want to grab lunch today?",
+          "done": "2021-02-21T10:48:41Z"
+        },
+        {
+          "message": "Sure, I'll see you later.",
+          "done": "2021-10-08T12:48:41Z"
+        },
+        {
+          "message": "Yeah, sure. Does 1:00pm work?",
+          "done": "2021-05-12T16:48:41Z"
+        },
+        {
+          "message": "Did you still want to grab lunch today?",
+          "done": "2021-02-21T10:48:41Z"
         }
       ]
     },
@@ -43,13 +64,11 @@
       "actions": [
         {
           "message": "Sure, I'll see you later.",
-          "done": "2021-10-08T12:48:41Z",
-          "color": "deep-purple lighten-1"
+          "done": "2021-10-08T12:48:41Z"
         },
         {
           "message": "Yeah, sure. Does 1:00pm work?",
-          "done": "2021-05-12T16:48:41Z",
-          "color": "green"
+          "done": "2021-05-12T16:48:41Z"
         }
       ]
     },
@@ -63,13 +82,11 @@
       "actions": [
         {
           "message": "Sure, I'll see you later.",
-          "done": "2021-10-08T12:48:41Z",
-          "color": "deep-purple lighten-1"
+          "done": "2021-10-08T12:48:41Z"
         },
         {
           "message": "Yeah, sure. Does 1:00pm work?",
-          "done": "2021-05-12T16:48:41Z",
-          "color": "green"
+          "done": "2021-05-12T16:48:41Z"
         }
       ]
     }
