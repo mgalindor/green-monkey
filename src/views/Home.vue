@@ -238,6 +238,7 @@ export default {
           self.control.historyDialog = true;
         },
         close() {
+          self.taskForm = {};
           self.control.historyDialog = false;
         },
       };

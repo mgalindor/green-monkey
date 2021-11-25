@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="dialog" max-width="500"  @click:outside="close">
+  <v-dialog v-model="dialog" max-width="500" max-height="800" @click:outside="close" @keydown="close">
     <v-card outlined>
       <v-card-title>History</v-card-title>
       <v-card-text>
@@ -32,8 +32,7 @@ export default {
   name: "GM-TaskHistory",
   props: {
     id: {
-      type: String,
-      required: true,
+      type: String
     },
     dialog: {
       type: Boolean,
@@ -44,19 +43,16 @@ export default {
       default: () => [],
     },
   },
-  methods:{
+  methods: {
     close() {
       this.$emit("close");
-    }
+    },
   },
   computed: {
     sortedActions() {
-      let sorted = [];
-      this.actions.forEach((a) => {
-        sorted.push({
-          message: a.message,
-          done: new Date(a.done),
-        });
+      let sorted = [...this.actions];
+      sorted.sort(function (a, b) {
+        return new Date(b.done) - new Date(a.done);
       });
       return sorted;
     },

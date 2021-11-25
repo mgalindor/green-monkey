@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="control.formDialog" persistent width="500">
+  <v-dialog v-model="dialog" persistent width="500">
     <v-card outlined>
       <v-card-title> Your task </v-card-title>
       <v-card-text>
