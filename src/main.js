@@ -6,6 +6,7 @@ import vuetify from "./plugins/vuetify";
 import "roboto-fontface/css/roboto/roboto-fontface.css";
 import "@mdi/font/css/materialdesignicons.css";
 import UUID from "vue-uuid";
+import "@/fire.js";
 
 Vue.config.productionTip = false;
 
